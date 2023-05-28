@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { TURNS } from '../constants/turns';
 import { WINNER_COMBOX } from '../constants/winnerCombox';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 
 interface GameContextInterface {
@@ -8,10 +9,13 @@ interface GameContextInterface {
     setBoard: (value: TURNS[]) => void;
 	turn: TURNS;
 	setTurn: (turn: TURNS) => void;
-    winner?: TURNS;
+    winner?: TURNS | null;
     setWinner: (w: TURNS) => void;
     updateBoard: (i: number) => void;
     checkWinner: (v: TURNS[]) => TURNS | null;
+    resetGame: () => void;
+    isLoading?: boolean;
+    isEmpty: boolean;
 }
 
 const GameContext = createContext<GameContextInterface>({
@@ -22,13 +26,17 @@ const GameContext = createContext<GameContextInterface>({
     winner: undefined,
     setWinner: () => null,
     updateBoard: () => null,
-    checkWinner: () => null
+    checkWinner: () => null,
+    resetGame: () => null,
+    isLoading: false,
+    isEmpty: true
 });
 
 const GameProvider = ({ ...props }) => {
-    const [board, setBoard] = useState<TURNS[]>(Array(9).fill(null)); // Initial board
-    const [turn, setTurn] = useState<TURNS>(TURNS.x); // Initial turn
-    const [winner, setWinner] = useState<TURNS | undefined>(undefined); // Winner [x or o]
+    const [board, setBoard] = useLocalStorage<TURNS[]>('board', Array(9).fill(null)); // Initial board
+    const [turn, setTurn] = useLocalStorage<TURNS>('turn', TURNS.x); // Initial turn
+    const [winner, setWinner] = useLocalStorage<TURNS | null | undefined>('winner', undefined); // Winner [x or o]
+    const [isLoading, setIsLoading] = useState<boolean>(false); // Winner [x or o]
 
     /**
      * Check winner
@@ -43,9 +51,14 @@ const GameProvider = ({ ...props }) => {
                 boardToCheck[a] === boardToCheck[c]
             ) return boardToCheck[a];
         }
-        // table
+        // tie
         return null;
     }, []);
+
+    /** Check if the game is over */
+    const checkEndGame = (newBoard: TURNS[]) => {
+        return newBoard?.every(box => box !== null);
+    }
 
     /** 
      * Update Board 
@@ -60,11 +73,22 @@ const GameProvider = ({ ...props }) => {
 
         // check winner
         const newWinner = checkWinner(newBoard);
-        if (newWinner) {
-            setWinner(newWinner);
-            alert('winner ' + newWinner)
-        }
+        if (newWinner) setWinner(newWinner);
+        // tie
+        else if (checkEndGame(newBoard)) setWinner(null);
     }, [board, checkWinner, turn, winner]);
+
+    const resetGame = () => {
+        setIsLoading(true);
+        setBoard(Array(9).fill(null));
+        setTurn(TURNS.x);
+        setWinner(undefined);
+        setTimeout(() => setIsLoading(false), 500);
+    };
+
+    const isEmpty = useMemo(() => {
+        return !board?.some(i => (i === TURNS.x || i === TURNS.o))
+    }, [board]);
     
 
     return (
@@ -77,7 +101,10 @@ const GameProvider = ({ ...props }) => {
             winner, 
             setWinner,
             updateBoard,
-            checkWinner
+            checkWinner,
+            resetGame,
+            isLoading,
+            isEmpty
         }}
         {...props} 
         />

@@ -9,7 +9,15 @@ export const Turns = memo(() => {
     return (
         <div className="turns">
             <div>
-                <Text>Turn:</Text>
+            <Text
+                h4
+                css={{
+                textGradient: "45deg, $blue600 -20%, $pink600 50%",
+                }}
+                weight="bold"
+            >
+                Turn:
+            </Text>
             </div>
             <Button size="lg" shadow color={turn === TURNS.x ? 'gradient' : '#eee'} auto>
                 x

@@ -1,39 +1,43 @@
 
-import { NextUIProvider, Text } from '@nextui-org/react';
+import { NextUIProvider } from '@nextui-org/react';
 import { Board } from './components/Board';
 import { GameProvider } from './contexts/GameContenxt';
-import './App.css';
 import { Turns } from './components/Turns';
+import { Header } from './components/Header';
+// import { Score } from './components/Score';
+import shapeAvif from './assets/shape.avif';
+import './App.css';
 
 function App() {
 
   return (
     <NextUIProvider>
-      <GameProvider>
 
-        <header>
-          <Text
-            h1
-            size={60}
-            css={{
-              textGradient: "45deg, $purple600 -20%, $pink600 100%",
-              marginBottom: '2rem'
-            }}
-            weight="bold"
-          >
-            Zero or Tail
-          </Text>
-        </header>
+      {/* <Score /> */}
 
-        <main>
-          <Board />
-        </main>
+      <div className="app-container">
+        <GameProvider>
 
-        <footer>
-            <Turns />
-        </footer>
+        <picture>
+          <img
+            src={shapeAvif}
+            alt=""
+            className="w-[71.75rem] flex-none max-w-none pretty-img"
+            decoding="async"
+          />
+        </picture>
+          <Header />
 
-      </GameProvider>
+          <main>
+            <Board />
+          </main>
+
+          <footer>
+              <Turns />
+          </footer>
+
+        </GameProvider>
+      </div>
     </NextUIProvider>
   )
 }

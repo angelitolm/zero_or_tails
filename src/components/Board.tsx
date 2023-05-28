@@ -1,13 +1,15 @@
-import { memo } from "react"
+import { memo } from "react";
 import { useGame } from "../contexts/GameContenxt";
 import { Box } from "./Box";
+import { TURNS } from "../constants/turns";
+import { WinnerModal } from "./WinnerModal";
 
 export const Board = memo(() => {
     const { board } = useGame();
 
-    return (
+    return (    
         <div className="board">
-            {board?.map((value: string, idx: number) => {
+            {board?.map((value: TURNS, idx: number) => {
                 return (
                     <Box 
                         key={idx}
@@ -18,6 +20,8 @@ export const Board = memo(() => {
                     </Box>
                 )
             })}
+
+            <WinnerModal />
         </div>
     );
 });

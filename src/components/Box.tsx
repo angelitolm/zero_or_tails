@@ -1,5 +1,5 @@
 import {memo, ReactNode} from 'react';
-import { Button } from "@nextui-org/react";
+import { Button, Loading } from "@nextui-org/react";
 import { useGame } from '../contexts/GameContenxt';
 import { TURNS } from '../constants/turns';
 import classNames from 'classnames';
@@ -11,18 +11,19 @@ interface BoxProps {
 }
 
 export const Box = memo(({children, index, value}: BoxProps) => {
-    const {updateBoard} = useGame();
+    const {updateBoard, isLoading} = useGame();
 
     return (
-        <div>
+        <div className="box">
             <Button 
                 shadow 
                 color={value === TURNS.x ? 'gradient' : value === TURNS.o ? 'error' : '#eee'} 
                 auto 
                 className={classNames("box", !value ? 'box-empty' : '')} 
-                onClick={() => updateBoard(index)}
+                onPress={() => updateBoard(index)}
+                disabled={isLoading}
             >
-                {children}
+                {isLoading ? <Loading color="currentColor" size="sm" className="box box-empty" /> : children}
             </Button>
         </div>
     );

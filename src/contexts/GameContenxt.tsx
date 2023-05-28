@@ -65,8 +65,6 @@ const GameProvider = ({ ...props }) => {
             alert('winner ' + newWinner)
         }
     }, [board, checkWinner, turn, winner]);
-
-    console.log('mmmmm', board);
     
 
     return (

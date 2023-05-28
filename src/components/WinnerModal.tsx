@@ -1,5 +1,5 @@
 import { memo, useState, useEffect, useMemo } from 'react';
-import { Modal, Text, Button, Input } from "@nextui-org/react";
+import { Modal, Text, Button } from "@nextui-org/react";
 import Lottie from "lottie-react";
 import { useGame } from '../contexts/GameContenxt';
 import { TURNS } from '../constants/turns';

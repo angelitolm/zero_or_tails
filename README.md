@@ -2,8 +2,7 @@
 
 1. Clone repo:
 ```
-yarn add --dev jest babel-jest @babel/preset-env @babel/preset-react 
-yarn add --dev @testing-library/react @types/jest jest-environment-jsdom
+git clone https://github.com/angelitolm/zero_or_tails.git
 ```
 
 2. Install:

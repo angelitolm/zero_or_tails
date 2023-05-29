@@ -8,13 +8,20 @@ import { GlobalFooter } from './components/GlobalFooter';
 // import { Score } from './components/Score';
 import shapeAvif from './assets/shape.avif';
 import './App.css';
+import { GithubSource } from './components/GithubSource';
 
 function App() {
 
   return (
     <NextUIProvider>
 
-      {/* <Score /> */}
+      <div className="global-header">
+        <div>
+           {/* <Score /> */}
+        </div>
+        <GithubSource />
+      </div>
+     
 
       <div className="app-container">
         <GameProvider>

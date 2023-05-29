@@ -10,7 +10,7 @@ git clone https://github.com/angelitolm/zero_or_tails.git
 yarn install
 ```
 
-2. Run project:
+3. Run project:
 ```
 cd zero_or_tails
 yarn run dev

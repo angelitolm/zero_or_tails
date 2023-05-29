@@ -127,3 +127,13 @@ footer {
   top: 0;
   left: 0;
 }
+.global-footer {
+  margin-top: 3rem;
+  width: 100%;
+}
+.developed-by {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}

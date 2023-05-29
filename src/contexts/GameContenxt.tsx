@@ -9,7 +9,7 @@ interface GameContextInterface {
     setBoard: (value: TURNS[]) => void;
 	turn: TURNS;
 	setTurn: (turn: TURNS) => void;
-    winner?: TURNS | null;
+    winner?: TURNS | null | boolean;
     setWinner: (w: TURNS) => void;
     updateBoard: (i: number) => void;
     checkWinner: (v: TURNS[]) => TURNS | null;
@@ -35,7 +35,7 @@ const GameContext = createContext<GameContextInterface>({
 const GameProvider = ({ ...props }) => {
     const [board, setBoard] = useLocalStorage<TURNS[]>('board', Array(9).fill(null)); // Initial board
     const [turn, setTurn] = useLocalStorage<TURNS>('turn', TURNS.x); // Initial turn
-    const [winner, setWinner] = useLocalStorage<TURNS | null | undefined>('winner', undefined); // Winner [x or o]
+    const [winner, setWinner] = useLocalStorage<TURNS | null | false>('winner', false); // Winner [x or o]
     const [isLoading, setIsLoading] = useState<boolean>(false); // Winner [x or o]
 
     /**
@@ -76,13 +76,13 @@ const GameProvider = ({ ...props }) => {
         if (newWinner) setWinner(newWinner);
         // tie
         else if (checkEndGame(newBoard)) setWinner(null);
-    }, [board, checkWinner, turn, winner]);
+    }, [board, checkWinner, setBoard, setTurn, setWinner, turn, winner]);
 
     const resetGame = () => {
         setIsLoading(true);
         setBoard(Array(9).fill(null));
         setTurn(TURNS.x);
-        setWinner(undefined);
+        setWinner(false);
         setTimeout(() => setIsLoading(false), 500);
     };
 

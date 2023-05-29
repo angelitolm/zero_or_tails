@@ -47,7 +47,7 @@ const DevCard = () => {
                         </div>
 
                         <div style={{display: 'flex', gap: 10, alignItems: 'center'}}>
-                            <Text>Senio Software Enginner. I love </Text>
+                            <Text>Senior Software Enginner. I love </Text>
                             <Avatar src={logo} size="xs" />
                             <Text>ReactJS</Text>
                         </div>
